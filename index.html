@@ -1,11 +1,129 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Mon premier site</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <h1>Bienvenue sur mon site, merci de consulter ce super site qui déchire !</h1>
-    <p>Juste un petit message d'amour gratuit pour vous dire que je suis content de travailler chez Yeita et Decathlon , on vient de prendre une bière au soleil avec des supers collègues il est 20H33 et je viens de publier mon premier site, c'est le début d'un grand truc parce que l'étape d'après c'est publier un site web qui reconnaît les objets puis après c'est une application iOS, vous êtes pas prêt   </p>
-  </body>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Poker Planning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .card {
+      display: inline-block;
+      margin: 10px;
+      padding: 20px 30px;
+      font-size: 24px;
+      background-color: #ffffff;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      background-color: #f0f0f0;
+    }
+
+    .card.selected {
+      border-color: #2196f3;
+      background-color: #e3f2fd;
+    }
+
+    #votes {
+      margin-top: 30px;
+    }
+
+    .vote-card {
+      display: inline-block;
+      margin: 5px;
+      font-size: 24px;
+      padding: 15px 25px;
+      background-color: #ffeb3b;
+      border-radius: 8px;
+      visibility: hidden;
+    }
+
+    .vote-card.visible {
+      visibility: visible;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Poker Planning</h1>
+
+  <div id="card-options">
+    <!-- Cards will be inserted here -->
+  </div>
+
+  <button onclick="revealVotes()">Révéler les votes</button>
+  <button onclick="resetVotes()">Réinitialiser</button>
+
+  <div id="votes">
+    <!-- Votes appear here -->
+  </div>
+
+  <script>
+    const values = [1, 2, 3, 5, 8, 13, '?'];
+    const cardOptions = document.getElementById('card-options');
+    const votesDiv = document.getElementById('votes');
+    let selectedValue = null;
+
+    values.forEach(val => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = val;
+      card.onclick = () => selectCard(card, val);
+      cardOptions.appendChild(card);
+    });
+
+    function selectCard(card, value) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedValue = value;
+
+      // Simulate user vote (for demo purposes)
+      generateVotes();
+    }
+
+    function generateVotes() {
+      votesDiv.innerHTML = '';
+      // Simulate 5 team members
+      for (let i = 0; i < 5; i++) {
+        const vote = document.createElement('div');
+        vote.className = 'vote-card';
+        vote.textContent = selectedValue; // In a real app, each would have its own value
+        votesDiv.appendChild(vote);
+      }
+    }
+
+    function revealVotes() {
+      document.querySelectorAll('.vote-card').forEach(v => {
+        v.classList.add('visible');
+      });
+    }
+
+    function resetVotes() {
+      selectedValue = null;
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      votesDiv.innerHTML = '';
+    }
+  </script>
+
+</body>
 </html>
